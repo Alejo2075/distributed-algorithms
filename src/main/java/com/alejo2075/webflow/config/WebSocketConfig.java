@@ -1,4 +1,4 @@
-package config;
+package com.alejo2075.webflow.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -19,5 +19,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/bubbleSort").withSockJS();
+        registry.addEndpoint("/bubbleSort");
     }
+
 }

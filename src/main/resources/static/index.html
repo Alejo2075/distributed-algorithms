@@ -1,49 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Generador de barras</title>
-    <style>
-    /* Estilos CSS para las barras */
-    .bar {
-      background-color: red;
-      height: 20px;
-      margin-bottom: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Tissddadasde</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script>
+        class SortRequest {
+            constructor(arr, delay) {
+                this.arr = arr;
+                this.delay = delay;
+            }
+        }
+
+        const myArray = [2, 4, 6, 1];
+        const myDelay = 200;
+        function connect() {
+
+            const socket = new SockJS('/bubbleSort');
+            const stompClient = Stomp.over(socket);
+            var sortStepsDiv = document.getElementById('sortSteps');
+
+
+            stompClient.connect({}, function (frame) {
+
+                stompClient.subscribe('/topic/bubbleSort', function (response) {
+                    var message = JSON.parse(response.body);
+                    console.log(message);
+
+                    var p = document.createElement('p');
+                    p.innerText = response.body;
+                    sortStepsDiv.appendChild(p);
+                });
+
+
+                stompClient.send("/app/bubbleSort", {}, JSON.stringify(new SortRequest(myArray, myDelay)));
+
+
+            });
+        }
+    </script>
 </head>
 <body>
-<h1>Generador de barras</h1>
-
-<!-- Formulario de entrada -->
-<form>
-    <label for="elemento">Elemento:</label>
-    <input type="text" id="elemento" name="elemento" placeholder="Introduce un elemento">
-    <br>
-    <button type="button" onclick="crearBarra()">Crear barra</button>
-</form>
-
-<!-- Área de visualización de barras -->
-<div id="barras"></div>
-
-<!-- JavaScript para generar las barras -->
-<script>
-    function crearBarra() {
-      var elemento = document.getElementById('elemento').value;
-      var tamano = document.getElementById('elemento').value;
-
-      // Crear el elemento de la barra
-      var barra = document.createElement('div');
-      barra.className = 'bar';
-      barra.style.width = tamano + 'in';
-
-      // Agregar el elemento a la lista de barras
-      var contenedorBarras = document.getElementById('barras');
-      contenedorBarras.appendChild(barra);
-
-      // Limpiar los campos del formulario
-      document.getElementById('elemento').value = '';
-      document.getElementById('tamano').value = '';
-    }
-  </script>
+    <button onclick="connect()"> Conectar </button>
+    <div id="sortSteps"></div>
 </body>
 </html>
