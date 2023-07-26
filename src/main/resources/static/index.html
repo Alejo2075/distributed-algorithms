@@ -13,7 +13,7 @@
             }
         }
 
-        const myArray = [2, 4, 6, 1];
+        const myArray = [5, 7, 6, 1];
         const myDelay = 200;
         function connect() {
 
@@ -24,7 +24,7 @@
 
             stompClient.connect({}, function (frame) {
 
-                stompClient.subscribe('/topic/bubbleSort', function (response) {
+                stompClient.subscribe('/topic/mergeSort', function (response) {
                     var message = JSON.parse(response.body);
                     console.log(message);
 
@@ -34,7 +34,7 @@
                 });
 
 
-                stompClient.send("/app/bubbleSort", {}, JSON.stringify(new SortRequest(myArray, myDelay)));
+                stompClient.send("/app/mergeSort", {}, JSON.stringify(new SortRequest(myArray, myDelay)));
 
 
             });

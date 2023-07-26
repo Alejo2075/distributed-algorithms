@@ -13,7 +13,7 @@ public class SelectionSortAlgorithm {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    public void sort(int[] arr, int delay){
+    public void sort(int[] arr, int delay) throws InterruptedException {
         for (int i = 0; i < arr.length - 1; i++) {
             SortResponse response = new SortResponse();
             int minIndex = i;
@@ -23,6 +23,7 @@ public class SelectionSortAlgorithm {
                     minIndex = j;
                 }
                 messagingTemplate.convertAndSend("/topic/selectionSort", response);
+                Thread.sleep(delay);
             }
             response = new SortResponse(minIndex, i, true);
             messagingTemplate.convertAndSend("/topic/selectionSort", response);

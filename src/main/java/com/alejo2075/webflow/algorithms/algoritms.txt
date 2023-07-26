@@ -1,11 +1,3 @@
-bubblesort
-selectionsort
-insertionSort
-quickSort
-mergesort
-
-binarysearch
-linearsearch
 
 Bfs
 DFS
