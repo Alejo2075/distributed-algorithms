@@ -13,13 +13,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic");
-        config.setApplicationDestinationPrefixes("/app");
+        config.setApplicationDestinationPrefixes("/sorts", "/searches", "/trees", "graphs");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/bubbleSort").withSockJS();
-        registry.addEndpoint("/bubbleSort");
+        registry.addEndpoint("/algo-flow").withSockJS();
+        registry.addEndpoint("/algo-flow");
     }
 
 }
