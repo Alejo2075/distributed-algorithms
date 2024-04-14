@@ -1,4 +1,0 @@
-
-Bfs
-DFS
-dijstra
