@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MergeSortResponse {
 
-    private double time;
+    private String status;
+    private String message;
 }
