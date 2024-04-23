@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SortTaskCompleted implements Serializable {
+public class MergeSortRequest implements Serializable {
     private String requestId;
     private String taskId;
-    private int[] sortedArray;
+    private int[] array;
 }
