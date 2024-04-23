@@ -2,8 +2,8 @@ package org.alejo2075.mergesort_service.listener;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.alejo2075.mergesort_service.model.SortTask;
-import org.alejo2075.mergesort_service.model.SortTaskCompleted;
+import org.alejo2075.mergesort_service.model.MergeSortRequest;
+import org.alejo2075.mergesort_service.model.MergeSortResponse;
 import org.alejo2075.mergesort_service.service.MergeSortService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,14 +32,14 @@ public class SortEventListenerTest {
     public void testSuccessfulSortAndPublish() throws Exception {
         int[] array = {5, 3, 8, 6, 2};
         int[] sortedArray = {2, 3, 5, 6, 8};
-        SortTask sortTask = new SortTask("requestId123", "taskId456", array);
-        String jsonMessage = objectMapper.writeValueAsString(sortTask);
+        MergeSortRequest mergeSortRequest = new MergeSortRequest("requestId123", "taskId456", array);
+        String jsonMessage = objectMapper.writeValueAsString(mergeSortRequest);
 
         when(mergeSortService.startMergeSortProcess(array)).thenReturn(sortedArray);
 
-        listener.onSortEventReceived(jsonMessage);
+        listener.processAndPublishSortedTask(jsonMessage);
 
-        SortTaskCompleted response = new SortTaskCompleted("requestId123", "taskId456", sortedArray);
+        MergeSortResponse response = new MergeSortResponse("requestId123", "taskId456", sortedArray);
         String jsonResponse = objectMapper.writeValueAsString(response);
 
         verify(kafkaTemplate).send("mergeSortResults", "requestId123", jsonResponse);
@@ -49,7 +49,7 @@ public class SortEventListenerTest {
     public void testMalformedJsonMessage() throws JsonProcessingException {
         String badJsonMessage = "This is not a valid JSON!";
 
-        listener.onSortEventReceived(badJsonMessage);
+        listener.processAndPublishSortedTask(badJsonMessage);
 
         verify(mergeSortService, never()).startMergeSortProcess(any());
         verifyNoInteractions(kafkaTemplate);
@@ -61,14 +61,14 @@ public class SortEventListenerTest {
         for (int i = 0; i < largeArray.length; i++) {
             largeArray[i] = (int) (Math.random() * 10000);
         }
-        SortTask sortTask = new SortTask("requestId789", "taskId012", largeArray);
-        String jsonMessage = objectMapper.writeValueAsString(sortTask);
+        MergeSortRequest mergeSortRequest = new MergeSortRequest("requestId789", "taskId012", largeArray);
+        String jsonMessage = objectMapper.writeValueAsString(mergeSortRequest);
 
         when(mergeSortService.startMergeSortProcess(largeArray)).thenReturn(largeArray); // Assuming it sorts in place for simplicity
 
-        listener.onSortEventReceived(jsonMessage);
+        listener.processAndPublishSortedTask(jsonMessage);
 
-        SortTaskCompleted response = new SortTaskCompleted("requestId789", "taskId012", largeArray);
+        MergeSortResponse response = new MergeSortResponse("requestId789", "taskId012", largeArray);
         String jsonResponse = objectMapper.writeValueAsString(response);
 
         verify(kafkaTemplate).send("mergeSortResults", "requestId789", jsonResponse);
