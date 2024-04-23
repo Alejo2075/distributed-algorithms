@@ -11,15 +11,15 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class MergeSortServiceImplTest {
+class SimpleMergeSortServiceTest {
 
     @InjectMocks
-    private MergeSortServiceImpl mergeSortService;
+    private SimpleMergeSortService mergeSortService;
     private final Random random = new Random();
 
     @BeforeEach
     void setUp() {
-        mergeSortService = new MergeSortServiceImpl();
+        mergeSortService = new SimpleMergeSortService();
     }
 
     @Test

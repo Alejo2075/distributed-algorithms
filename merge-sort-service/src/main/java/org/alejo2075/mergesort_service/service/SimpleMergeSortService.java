@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
  * Service implementation for handling simple merge sort operations.
  */
 @Service
-public class MergeSortServiceImpl implements MergeSortService {
+public class SimpleMergeSortService implements MergeSortService {
 
     /**
      * Starts the merge sort process on the given array.
