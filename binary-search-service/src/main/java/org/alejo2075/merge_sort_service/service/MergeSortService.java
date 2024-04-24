@@ -1,4 +1,4 @@
-package org.alejo2075.mergesort_service.service;
+package org.alejo2075.merge_sort_service.service;
 
 public interface MergeSortService {
 

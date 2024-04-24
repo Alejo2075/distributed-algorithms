@@ -1,4 +1,4 @@
-package org.alejo2075.mergesort_service.model;
+package org.alejo2075.merge_sort_service.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MergeSortResponse implements Serializable {
+public class MergeSortRequest implements Serializable {
     private String requestId;
     private String taskId;
-    private int[] sortedArray;
+    private int[] array;
 }

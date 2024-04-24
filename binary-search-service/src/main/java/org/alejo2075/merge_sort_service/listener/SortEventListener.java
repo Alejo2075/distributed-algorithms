@@ -1,11 +1,11 @@
-package org.alejo2075.mergesort_service.listener;
+package org.alejo2075.merge_sort_service.listener;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
-import org.alejo2075.mergesort_service.model.MergeSortRequest;
-import org.alejo2075.mergesort_service.model.MergeSortResponse;
-import org.alejo2075.mergesort_service.service.MergeSortService;
+import org.alejo2075.merge_sort_service.model.MergeSortRequest;
+import org.alejo2075.merge_sort_service.model.MergeSortResponse;
+import org.alejo2075.merge_sort_service.service.MergeSortService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;

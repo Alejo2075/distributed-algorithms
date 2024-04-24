@@ -1,6 +1,6 @@
 
 
-package org.alejo2075.mergesort_service.service;
+package org.alejo2075.merge_sort_service.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
