@@ -13,7 +13,7 @@ public class SortEventListener {
     private static final Logger logger = LogManager.getLogger(SortEventListener.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    /*@KafkaListener(topics = "sorted-topic", groupId = "sort-group")
+    /*@KafkaListener(topics = "mergesort-tasks-processed", groupId = "sort-group")
     public void onSortEventReceived(String message) {
         try {
             SortEvent sortEvent = objectMapper.readValue(message, SortEvent.class);

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class CoordinatorServiceImpl implements CoordinatorService{
 
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private static final String KAFKA_TOPIC = "mergeSortTasks";
+    private static final String KAFKA_TOPIC = "mergesort-tasks-to-process";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public CoordinatorServiceImpl(KafkaTemplate<String, String> kafkaTemplate) {
