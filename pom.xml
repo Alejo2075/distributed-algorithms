@@ -9,9 +9,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>coordinator-service</module>
-        <module>merge-sort-service</module>
-        <module>binary-search-service</module>
+        <module>service-mergesort-coordinator</module>
+        <module>service-mergesort-worker</module>
     </modules>
 
     <properties>
@@ -110,6 +109,13 @@
             <type>pom</type>
             <scope>import</scope>
         </dependency>
+
+        <!-- Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
 
         <!-- Testing Frameworks -->
         <!-- JUnit 5 for Unit Testing -->

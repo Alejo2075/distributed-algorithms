@@ -1,7 +1,6 @@
 package org.alejo2075.coordinator_service.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.alejo2075.coordinator_service.model.dto.request.BinarySearchRequest;
 import org.alejo2075.coordinator_service.model.dto.request.MergeSortRequest;
 import org.alejo2075.coordinator_service.service.CoordinatorService;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +49,7 @@ public class CoordinatorControllerTest {
                 .andExpect(jsonPath("$.status").value("Success"))
                 .andExpect(jsonPath("$.message").value("Data is being processed."));
 
-        verify(coordinatorService).startMergeSortProcess(any());
+        verify(coordinatorService).startMergeSortProcess(anyString(), any());
     }
 
     @Test
@@ -63,7 +62,7 @@ public class CoordinatorControllerTest {
                         .content(jsonRequest))
                 .andExpect(status().isBadRequest());
 
-        verify(coordinatorService, never()).startMergeSortProcess(any());
+        verify(coordinatorService, never()).startMergeSortProcess(anyString(), any());
     }
 
     @Test
@@ -71,7 +70,7 @@ public class CoordinatorControllerTest {
         MergeSortRequest request = new MergeSortRequest(new int[]{5, 2, 9, 1, 5});
         String jsonRequest = objectMapper.writeValueAsString(request);
 
-        doThrow(new RuntimeException("Internal Server Error")).when(coordinatorService).startMergeSortProcess(any());
+        doThrow(new RuntimeException("Internal Server Error")).when(coordinatorService).startMergeSortProcess(anyString(), any());
 
         mockMvc.perform(post("/v1/algorithms/mergeSort")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -80,53 +79,7 @@ public class CoordinatorControllerTest {
                 .andExpect(jsonPath("$.status").value("Failure"))
                 .andExpect(jsonPath("$.message").value("Internal Server Error"));
 
-        verify(coordinatorService).startMergeSortProcess(any());
+        verify(coordinatorService).startMergeSortProcess(anyString(), any());
     }
-
-    @Test
-    public void testProcessBinarySearch_Success() throws Exception {
-        BinarySearchRequest request = new BinarySearchRequest(new int[]{1, 2, 3, 4, 5}, 3);
-        String jsonRequest = objectMapper.writeValueAsString(request);
-
-        mockMvc.perform(post("/v1/algorithms/binarySearch")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value("Success"))
-                .andExpect(jsonPath("$.message").value("Data is being processed."));
-
-        verify(coordinatorService).startBinarySearchProcess(any(), anyInt());
-    }
-
-    @Test
-    public void testProcessBinarySearch_InvalidRequest() throws Exception {
-        BinarySearchRequest request = new BinarySearchRequest();
-        String jsonRequest = objectMapper.writeValueAsString(request);
-
-        mockMvc.perform(post("/v1/algorithms/binarySearch")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest))
-                .andExpect(status().isBadRequest());
-
-        verify(coordinatorService, never()).startBinarySearchProcess(any(int[].class), anyInt());
-    }
-
-    @Test
-    public void testProcessBinarySearch_InternalServerError() throws Exception {
-        BinarySearchRequest request = new BinarySearchRequest(new int[]{1, 2, 3, 4, 5}, 3);
-        String jsonRequest = objectMapper.writeValueAsString(request);
-
-        doThrow(new RuntimeException("Internal Server Error")).when(coordinatorService).startBinarySearchProcess(any(int[].class), anyInt());
-
-        mockMvc.perform(post("/v1/algorithms/binarySearch")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequest))
-                .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.status").value("Failure"))
-                .andExpect(jsonPath("$.message").value("Internal Server Error"));
-
-        verify(coordinatorService).startBinarySearchProcess(any(int[].class), anyInt());
-    }
-
 
 }
