@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: coordinator-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      retries: 1
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+api:
+  version: 1.0
+
