@@ -1,12 +1,22 @@
 spring:
   application:
     name: coordinator-service
-  kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      retries: 1
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  redis:
+    host: localhost
+    port: 6379
+
+    kafka:
+      producer:
+        bootstrap-servers: localhost:9092
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+      consumer:
+        group-id: sort-group
+        auto-offset-reset: earliest
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 api:
   version: 1.0
