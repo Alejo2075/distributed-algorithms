@@ -21,7 +21,7 @@ public class SortEventListener {
 
     private final MergeSortService mergeSortService;
     private final KafkaTemplate<String, String> kafkaTemplate;
-    private static final String RESULT_TOPIC = "mergeSortResults";
+    private static final String RESULT_TOPIC = "mergesort-tasks-processed";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
