@@ -2,15 +2,15 @@ package org.alejo2075.coordinator_service.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.alejo2075.coordinator_service.model.dto.response.ErrorResponse;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.KafkaException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.kafka.KafkaException;
-import org.springframework.dao.DataAccessException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 /**
  * Global exception handler for the coordinator service.
