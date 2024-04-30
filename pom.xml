@@ -16,6 +16,7 @@
     <properties>
         <java.version>17</java.version>
         <spring-boot.version>3.2.4</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR3</spring-cloud.version> <!-- Adjust the Spring Cloud version as necessary -->
         <junit-jupiter.version>5.7.0</junit-jupiter.version>
         <mockito.version>3.6.0</mockito.version>
         <springdoc.version>2.0.3</springdoc.version>
@@ -30,12 +31,19 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
 
-        <!-- Core Spring Boot Dependencies -->
+        <!-- Core Spring Dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -45,6 +53,13 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>${spring-boot.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
         </dependency>
 
         <!-- Lombok for Boilerplate Code Reduction (like getters, setters, constructors) -->
@@ -83,7 +98,6 @@
             </exclusions>
         </dependency>
 
-
         <!-- Data Validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -102,20 +116,34 @@
             <version>1.6.15</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-dependencies</artifactId>
-            <version>${spring-boot.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-
         <!-- Actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
 
+        <!-- Discovery Client -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+
+        <!-- Config Client-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
+        <!-- Zipkin -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
 
         <!-- Testing Frameworks -->
         <!-- JUnit 5 for Unit Testing -->
@@ -152,7 +180,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -167,3 +194,5 @@
         </pluginManagement>
     </build>
 </project>
+
+
