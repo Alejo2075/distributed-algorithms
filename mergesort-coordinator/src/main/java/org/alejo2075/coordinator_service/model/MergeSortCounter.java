@@ -12,6 +12,5 @@ import org.springframework.data.redis.core.RedisHash;
 public class MergeSortCounter {
 
     private int counter;
-    private String requestId;
     private String[] taskIds;
 }

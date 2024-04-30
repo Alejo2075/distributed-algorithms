@@ -17,7 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class CoordinatorServiceImplTests {
+public class CoordinatorServiceTests {
 
     @Mock
     private KafkaTemplate<String, String> kafkaTemplate;
@@ -29,7 +29,7 @@ public class CoordinatorServiceImplTests {
     private HashOperations<String, String, Object> hashOperations;
 
     @InjectMocks
-    private CoordinatorServiceImpl coordinatorService;
+    private CoordinatorService coordinatorService;
 
 
 

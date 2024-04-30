@@ -15,9 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import org.alejo2075.coordinator_service.model.MergeSortCounter;
 import org.alejo2075.coordinator_service.model.MergeSortTaskProcessed;
-import org.alejo2075.coordinator_service.model.MergeSortResult;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)

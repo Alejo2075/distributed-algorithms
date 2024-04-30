@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MergeSortTaskProcessed {
 
-    private String requestId;
     private String taskId;
     private int[] arraySortedSegment;
 

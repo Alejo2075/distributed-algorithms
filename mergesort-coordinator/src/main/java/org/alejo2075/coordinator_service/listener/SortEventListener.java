@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
 import org.alejo2075.coordinator_service.model.MergeSortCounter;
-import org.alejo2075.coordinator_service.model.MergeSortResult;
 import org.alejo2075.coordinator_service.model.MergeSortTaskProcessed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
@@ -12,6 +11,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -51,43 +52,49 @@ public class SortEventListener {
     @KafkaListener(topics = KAFKA_TOPIC, groupId = "sort-group")
     public void onSortEventReceived(String message) throws JsonProcessingException {
         MergeSortTaskProcessed processedTask = objectMapper.readValue(message, MergeSortTaskProcessed.class);
-        log.info("Received sorted segment for request ID: {}, task ID: {}", processedTask.getRequestId(), processedTask.getTaskId());
+        log.info("Received sorted segment for task ID: {}", processedTask.getTaskId());
 
         // Update the task in Redis with the sorted array
         hashOps.put("MergeSortTasks", processedTask.getTaskId(), processedTask);
 
         // Update the counter and check if all segments are sorted
-        MergeSortCounter counter = (MergeSortCounter) hashOps.get("MergeSortCounters", processedTask.getRequestId());
+        MergeSortCounter counter = (MergeSortCounter) hashOps.get("MergeSortCounters", "0");
         assert counter != null;
         counter.setCounter(counter.getCounter() - 1);
-        hashOps.put("MergeSortCounters", processedTask.getRequestId(), counter);
-        log.info("Updated counter for request ID: {}, remaining tasks: {}", processedTask.getRequestId(), counter.getCounter());
+        hashOps.put("MergeSortCounter", "0", counter);
+        log.info("Updated counter remaining tasks: {}", counter.getCounter());
 
         // Check if all segments are sorted
         if (counter.getCounter() == 0) {
-            log.info("All segments sorted for request ID: {}", processedTask.getRequestId());
-            int[] sortedArray = combineAndSortAllSegments(counter, processedTask.getRequestId());
+            log.info("All segments sorted");
+            int[] sortedArray = combineAndSortAllSegments(counter);
 
-            // Store the sorted array in Redis
-            MergeSortResult result = new MergeSortResult(processedTask.getRequestId(), sortedArray);
-            hashOps.put("MergeSortResults", processedTask.getRequestId(), result);
-            log.info("Sorted array stored in Redis for request ID: {}", processedTask.getRequestId());
+            calculateTime();
 
             // Clean up tasks and counter from Redis
             Arrays.stream(counter.getTaskIds()).forEach(taskId -> hashOps.delete("MergeSortTasks", taskId));
-            hashOps.delete("MergeSortCounters", processedTask.getRequestId());
-            log.info("Cleaned up all tasks and counter for request ID: {}", processedTask.getRequestId());
+            hashOps.delete("MergeSortCounter", "0");
+            log.info("Cleaned up all tasks and counter");
         }
+    }
+
+    private void calculateTime() {
+        Instant endTime = Instant.now();
+        String startTimeStr = (String) hashOps.get("MergeSortStartTime", "startTime");
+        assert startTimeStr != null;
+        Instant startTime = Instant.parse(startTimeStr);
+        Duration duration = Duration.between(startTime, endTime);
+
+        log.info("Array Sorted. Total time taken: {}", duration);
     }
 
     /**
      * Combines and sorts all segments stored in Redis once all tasks are completed.
      *
      * @param counter The counter containing IDs of all tasks.
-     * @param requestId The request ID associated with these tasks.
      * @return A sorted array combining all segments.
      */
-    protected int[] combineAndSortAllSegments(MergeSortCounter counter, String requestId) {
+    protected int[] combineAndSortAllSegments(MergeSortCounter counter) {
         return Arrays.stream(counter.getTaskIds())
                 .map(taskId -> (MergeSortTaskProcessed) hashOps.get("MergeSortTasks", taskId)).filter(Objects::nonNull)
                 .flatMapToInt(task -> Arrays.stream(task.getArraySortedSegment()))
