@@ -40,7 +40,7 @@ services:
   ### MergeSort Coordinator Service
   coordinator-service:
     build:
-      context: ./service-mergesort-coordinator/
+      context: ./mergesort-coordinator/
       dockerfile: Dockerfile
     container_name: coordinator-service
     ports:
@@ -52,7 +52,7 @@ services:
   ### MergeSort Worker Service
   worker-service:
     build:
-      context: ./service-mergesort-worker
+      context: ./mergesort-worker
       dockerfile: Dockerfile
     container_name: worker-service
     ports:

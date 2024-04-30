@@ -42,7 +42,7 @@ public class SortEventListenerTest {
         MergeSortResponse response = new MergeSortResponse("requestId123", "taskId456", sortedArray);
         String jsonResponse = objectMapper.writeValueAsString(response);
 
-        verify(kafkaTemplate).send("mergeSortResults", "requestId123", jsonResponse);
+        verify(kafkaTemplate).send("mergesort-tasks-processed", "requestId123", jsonResponse);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class SortEventListenerTest {
         MergeSortResponse response = new MergeSortResponse("requestId789", "taskId012", largeArray);
         String jsonResponse = objectMapper.writeValueAsString(response);
 
-        verify(kafkaTemplate).send("mergeSortResults", "requestId789", jsonResponse);
+        verify(kafkaTemplate).send("mergesort-tasks-processed", "requestId789", jsonResponse);
     }
 
 

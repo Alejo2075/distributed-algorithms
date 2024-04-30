@@ -9,8 +9,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>service-mergesort-coordinator</module>
-        <module>service-mergesort-worker</module>
+        <module>mergesort-coordinator</module>
+        <module>mergesort-worker</module>
     </modules>
 
     <properties>
@@ -121,29 +121,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-prometheus</artifactId>
-        </dependency>
 
-        <!-- Discovery Client -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-            <version>4.0.3</version>
-        </dependency>
-
-        <!-- Config Client-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-
-        <!-- Zipkin -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zipkin</artifactId>
-        </dependency>
 
         <!-- Testing Frameworks -->
         <!-- JUnit 5 for Unit Testing -->

@@ -8,13 +8,20 @@
         <groupId>org.alejo2075</groupId>
         <artifactId>distributed-algorithms</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath/>
     </parent>
 
-    <artifactId>service-mergesort-worker</artifactId>
-    <name>merge-sort-service</name>
-    <description>A service for performing merge sort operations</description>
+    <artifactId>mergesort-coordinator</artifactId>
+    <name>coordinator-service</name>
+    <description>Coordinator service for managing distributed algorithms processes</description>
 
     <dependencies>
+
+        <!-- Spring Data Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
 
     </dependencies>
 </project>
