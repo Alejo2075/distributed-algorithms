@@ -1,123 +1,66 @@
-
-
 package org.alejo2075.binary_search_service.service;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.InjectMocks;
-
+import org.junit.jupiter.api.Test;
+import java.util.Arrays;
 import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SimpleMergeSortServiceTest {
 
-    @InjectMocks
-    private SimpleMergeSortService mergeSortService;
-    private final Random random = new Random();
+    private SimpleMergeSortWorkerService service;
 
     @BeforeEach
     void setUp() {
-        mergeSortService = new SimpleMergeSortService();
+        service = new SimpleMergeSortWorkerService();
     }
 
     @Test
-    void testSortEmptyArray() {
-        int[] actual = {};
-        mergeSortService.startMergeSortProcess(actual);
-        assertArrayEquals(new int[] {}, actual);
+    void testStartMergeSortProcess_EmptyArray() {
+        int[] emptyArray = {};
+        assertArrayEquals(emptyArray, service.startMergeSortProcess(emptyArray));
     }
 
     @Test
-    void testSortSingleElement() {
-        int[] actual = {1};
-        mergeSortService.startMergeSortProcess(actual);
-        assertArrayEquals(new int[] {1}, actual);
+    void testStartMergeSortProcess_SingleElement() {
+        int[] singleElementArray = {42};
+        assertArrayEquals(singleElementArray, service.startMergeSortProcess(singleElementArray));
     }
 
     @Test
-    void testSortMultipleElements() {
-        int[] actual = {5, 3, 8, 6, 2};
-        mergeSortService.startMergeSortProcess(actual);
-        assertArrayEquals(new int[] {2, 3, 5, 6, 8}, actual);
+    void testStartMergeSortProcess_PreSortedArray() {
+        int[] sortedArray = {1, 2, 3, 4, 5};
+        assertArrayEquals(sortedArray, service.startMergeSortProcess(sortedArray.clone()));
     }
 
     @Test
-    void testSortWithNegativeNumbers() {
-        int[] actual = {-3, -1, -4, -2};
-        mergeSortService.startMergeSortProcess(actual);
-        assertArrayEquals(new int[] {-4, -3, -2, -1}, actual);
+    void testStartMergeSortProcess_ReverseSortedArray() {
+        int[] reverseSortedArray = {5, 4, 3, 2, 1};
+        int[] expectedArray = {1, 2, 3, 4, 5};
+        assertArrayEquals(expectedArray, service.startMergeSortProcess(reverseSortedArray));
     }
 
     @Test
-    void testSortWithDuplicates() {
-        int[] actual = {5, 3, 5, 5, 2};
-        mergeSortService.startMergeSortProcess(actual);
-        assertArrayEquals(new int[] {2, 3, 5, 5, 5}, actual);
+    void testStartMergeSortProcess_RandomArray() {
+        int[] randomArray = {5, 2, 9, 1, 5, 6};
+        int[] expectedArray = {1, 2, 5, 5, 6, 9};
+        assertArrayEquals(expectedArray, service.startMergeSortProcess(randomArray));
     }
 
     @Test
-    void testSortAlreadySortedArray() {
-        int[] actual = {1, 2, 3, 4, 5};
-        mergeSortService.startMergeSortProcess(actual);
-        assertArrayEquals(new int[] {1, 2, 3, 4, 5}, actual);
+    void testStartMergeSortProcess_AllElementsSame() {
+        int[] sameElementsArray = {7, 7, 7, 7};
+        assertArrayEquals(sameElementsArray, service.startMergeSortProcess(sameElementsArray));
     }
 
     @Test
-    void testSortReverseSortedArray() {
-        int[] actual = {5, 4, 3, 2, 1};
-        mergeSortService.startMergeSortProcess(actual);
-        assertArrayEquals(new int[] {1, 2, 3, 4, 5}, actual);
-    }
+    void testStartMergeSortProcess_LargeArray() {
+        int size = 100000;
+        Random random = new Random();
+        int[] largeArray = random.ints(size, 1, 100000).toArray();
+        int[] sortedArray = Arrays.copyOf(largeArray, largeArray.length);
+        Arrays.sort(sortedArray);
 
-    @Test
-    void testSortLargeArray() {
-        int[] actual = new int[1000];
-        for (int i = 0; i < actual.length; i++) {
-            actual[i] = random.nextInt(1000); // Random numbers between 0 and 999
-        }
-        int[] expected = actual.clone();
-        java.util.Arrays.sort(expected); // Sorting using Java's built-in sort for comparison
-        mergeSortService.startMergeSortProcess(actual);
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    void testSortLargeArraySorted() {
-        int[] actual = new int[1000];
-        for (int i = 0; i < actual.length; i++) {
-            actual[i] = i;
-        }
-        int[] expected = actual.clone();
-        mergeSortService.startMergeSortProcess(actual);
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    void testSortLargeArrayReverse() {
-        int[] actual = new int[1000];
-        for (int i = 0; i < actual.length; i++) {
-            actual[i] = actual.length - i;
-        }
-        int[] expected = new int[1000];
-        for (int i = 0; i < expected.length; i++) {
-            expected[i] = i + 1;
-        }
-        mergeSortService.startMergeSortProcess(actual);
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    void testSortVeryLargeArray() {
-        int[] actual = new int[10000];
-        for (int i = 0; i < actual.length; i++) {
-            actual[i] = random.nextInt(10000); // Random numbers between 0 and 9999
-        }
-        int[] expected = actual.clone();
-        java.util.Arrays.sort(expected); // Sorting using Java's built-in sort for comparison
-        mergeSortService.startMergeSortProcess(actual);
-        assertArrayEquals(expected, actual);
+        assertArrayEquals(sortedArray, service.startMergeSortProcess(largeArray));
     }
 }
-

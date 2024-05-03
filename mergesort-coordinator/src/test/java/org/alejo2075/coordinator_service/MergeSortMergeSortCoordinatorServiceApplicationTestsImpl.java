@@ -1,10 +1,10 @@
-package org.alejo2075.merge_sort_service;
+package org.alejo2075.coordinator_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MergeSortServiceApplicationTests {
+class MergeSortMergeSortCoordinatorServiceApplicationTestsImpl {
 
     @Test
     void contextLoads() {
