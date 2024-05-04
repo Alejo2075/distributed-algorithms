@@ -29,12 +29,9 @@ This project explores the capabilities of distributed architecture to solve basi
 
 ### Infrastructure
 
-- **API Gateway**: Entry point for all incoming requests, routing them to the appropriate services.
+
 - **Kafka**: Handles the decoupling of data production by the coordinator from consumption by worker services.
 - **Redis**: Stores the intermediate and final sorted arrays.
-- **Keycloak**: Manages authentication and authorization.
-- **Config Server**: Manages configuration properties across all services.
-- **Discovery Server**: Handles service registration and discovery.
 
 ![Architecture Diagram](path_to_your_architecture_diagram_image)
 
