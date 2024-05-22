@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 @Log4j2
 public class MergeSortWorkerEventListener {
 
-    private static final String KAFKA_TOPIC = "mergesort-tasks-processed";
     private static final String KAFKA_TOPIC2 = "mergesort-tasks-processed";
+    private static final String KAFKA_TOPIC = "mergesort-tasks-to-process";
     private static final String GROUP_ID = "sort-group";
     private final MergeSortWorkerService workerService;
     private final KafkaTemplate<String, String> kafkaTemplate;
@@ -44,7 +44,7 @@ public class MergeSortWorkerEventListener {
     protected void publishSortedArray(MergeSortRequest request, int[] sortedArray) throws JsonProcessingException {
         MergeSortResponse response = new MergeSortResponse(request.getRequestId(), request.getTaskId(), sortedArray);
         String jsonResponse = objectMapper.writeValueAsString(response);
-        kafkaTemplate.send(KAFKA_TOPIC, request.getRequestId(), jsonResponse);
+        kafkaTemplate.send(KAFKA_TOPIC2, request.getRequestId(), jsonResponse);
         log.info("Published sorted array for Task ID: {} to topic {}", request.getTaskId(), KAFKA_TOPIC);
     }
 }

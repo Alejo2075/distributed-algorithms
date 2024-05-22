@@ -19,7 +19,6 @@
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <junit-jupiter.version>5.7.0</junit-jupiter.version>
         <mockito.version>3.6.0</mockito.version>
-        <springdoc.version>2.0.3</springdoc.version>
     </properties>
 
     <dependencyManagement>
@@ -98,42 +97,6 @@
             </exclusions>
         </dependency>
 
-
-        <!-- Actuator -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-
-        <!-- Testing Frameworks -->
-        <!-- JUnit 5 for Unit Testing -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.7.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.7.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Mockito for Mocking in Tests -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>3.6.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>3.6.0</version>
-            <scope>test</scope>
-        </dependency>
 
         <!-- Spring Boot Test for Integration Testing -->
         <dependency>

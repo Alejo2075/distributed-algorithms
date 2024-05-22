@@ -37,27 +37,4 @@ services:
     ports:
       - "6379:6379"
 
-  ### MergeSort Coordinator Service
-  coordinator-service:
-    build:
-      context: ./mergesort-coordinator/
-      dockerfile: Dockerfile
-    container_name: coordinator-service
-    ports:
-      - "8080:8080"
-    depends_on:
-      - kafka
-      - redis
-
-  ### MergeSort Worker Service
-  worker-service:
-    build:
-      context: ./mergesort-worker
-      dockerfile: Dockerfile
-    container_name: worker-service
-    ports:
-      - "8081:8081"
-    depends_on:
-      - kafka
-
 

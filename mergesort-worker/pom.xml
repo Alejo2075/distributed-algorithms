@@ -8,7 +8,6 @@
         <groupId>org.alejo2075</groupId>
         <artifactId>distributed-algorithms</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/>
     </parent>
 
     <artifactId>mergesort-worker</artifactId>

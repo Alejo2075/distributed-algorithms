@@ -49,6 +49,7 @@ public class MergeSortCoordinatorEventListener {
     private void updateTaskInRedis(MergeSortTaskProcessed task) {
         hashOps.put("MergeSortTasks", task.getTaskId(), task);
         MergeSortCounter counter = (MergeSortCounter) hashOps.get("MergeSortCounters", "0");
+        assert counter != null;
         counter.setCounter(counter.getCounter() - 1);
         hashOps.put("MergeSortCounter", "0", counter);
     }
@@ -56,6 +57,7 @@ public class MergeSortCoordinatorEventListener {
 
     private boolean checkAndFinalizeSorting(String taskId) {
         MergeSortCounter counter = (MergeSortCounter) hashOps.get("MergeSortCounter", "0");
+        assert counter != null;
         if (counter.getCounter() == 0) {
             log.info("All segments sorted for task ID: {}", taskId);
             int[] sortedArray = combineAndSortAllSegments(counter);
@@ -79,6 +81,7 @@ public class MergeSortCoordinatorEventListener {
 
     private void cleanupRedisEntries() {
         MergeSortCounter counter = (MergeSortCounter) hashOps.get("MergeSortCounter", "0");
+        assert counter != null;
         Arrays.stream(counter.getTaskIds()).forEach(taskId -> hashOps.delete("MergeSortTasks", taskId));
         hashOps.delete("MergeSortCounter", "0");
         log.info("Cleaned up Redis entries for completed sorting tasks.");

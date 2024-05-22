@@ -2,6 +2,7 @@ spring:
   application:
     name: mergesort-worker
 
+
   kafka:
     bootstrap-servers: kafka-service:9092
     producer:
@@ -12,19 +13,5 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: *
-  endpoint:
-    health:
-      show-details: always
-
-info:
-  app:
-    name: MergeSort Service
-    description: Microservice for performing merge sort operations
-    version: 1.0.0
-    maintainer: alejsant75@gmail.com
+server:
+  port: 8082

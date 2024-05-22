@@ -1,27 +1,30 @@
 package org.alejo2075.coordinator_service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.alejo2075.coordinator_service.service.MergeSortCoordinatorServiceImpl;
+import org.alejo2075.coordinator_service.service.MergeSortCoordinatorService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.io.IOException;
 import java.util.Random;
 
 @SpringBootApplication
 public class MergeSortCoordinatorServiceApplication {
 
-    public static void main(String[] args) throws JsonProcessingException {
+    private static final int MAX_ARRAY_SIZE = 100;
+
+    public static void main(String[] args) throws IOException {
         ConfigurableApplicationContext context = SpringApplication.run(MergeSortCoordinatorServiceApplication.class, args);
 
-        int[] array = generateRandomArray(10000);
+        System.out.println("Press any key to start the MergeSort process...");
+        System.in.read();
 
-        MergeSortCoordinatorServiceImpl mergeSortCoordinatorServiceImpl = context.getBean(MergeSortCoordinatorServiceImpl.class);
+        int[] array = generateRandomArray(MAX_ARRAY_SIZE);
 
+        MergeSortCoordinatorService coordinator = context.getBean(MergeSortCoordinatorService.class);
 
-        mergeSortCoordinatorServiceImpl.startMergeSortProcess(array);
+        coordinator.startMergeSortProcess(array);
     }
-
 
     private static int[] generateRandomArray(int size) {
         int[] array = new int[size];
